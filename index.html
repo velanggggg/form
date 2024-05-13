@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form validation</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+        }
+
+        #box{
+        background-color: #ddd7d7;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 50px;
+        width: 700px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body> 
+    <form id="userForm" method="post" onsubmit="return validateForm()">
+        <table id="box">
+            <h2>User Information Form</h2>
+            <tr>
+                <td><label for="name">Name : </label></td>
+                <td><input type="text" id="name" name="name"><span id="nameError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="gender">Gender :</label></td>
+                <td>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label><br>
+                    <span id="genderError" style="color: red;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="Language">Language Known : </label></td>
+                <td>
+                    <input type="checkbox" name="tamil" id="Tamil">
+                    <label for="tamil">Tamil</label>
+                    <input type="checkbox" name="Language" value="English">
+                    <label for="eng">English</label>
+                    <input type="checkbox" name="Language" value="Hindi">
+                    <label for="hin">Hindi</label><br>
+                    <span id="languageError" style="color: red;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="district">District : </label></td>
+                <td>
+                    <select name="district" id="district">
+                        <option value="sd">select district</option>
+                        <option value="Ariyalur">Ariyalur</option>
+                        <option value="Erode">Erode</option>
+                        <option value="Karur">Karur</option>
+                        <option value="Namakkal">Namakkal</option>
+                        <option value="Kallakurichi">Kallakurichi</option>
+                    </select><br>
+                    <span id="districtError" style="color: red;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="address">Address : </label></td>
+                <td><textarea id="address" name="address" rows="5" cols="65"></textarea><br>
+                <span id="addressError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email : </label></td>
+                <td><input type="email" id="email" name="email"><br>
+                <span id="emailError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="mobile">Mobile Number : </label></td>
+                <td><input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"><br>
+                <span id="mobileError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="uname">User name : </label></td>
+                <td><input type="text" id="uname" name="uname"><br>
+                <span id="unameError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="pincode">Pincode : </label></td>
+                <td><input type="text" id="pincode" name="pincode" pattern="[0-9]{6}"><br>
+                <span id="pincodeError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><label for="pass">Password : </label></td>
+                <td><input type="password" id="pass" name="pass"><br>
+                <span id="passError" style="color: red;"></span></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Register"></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function validateForm() {
+            var name = document.getElementById("name").value.trim();
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var language = document.querySelectorAll('input[name="Language"]:checked');
+            var district = document.getElementById("district").value;
+            var address = document.getElementById("address").value.trim();
+            var email = document.getElementById("email").value.trim();
+            var mobile = document.getElementById("mobile").value.trim();
+            var uname = document.getElementById("uname").value.trim();
+            var pincode = document.getElementById("pincode").value.trim();
+            var pass = document.getElementById("pass").value.trim();
+    
+            var nameError = document.getElementById("nameError");
+            var genderError = document.getElementById("genderError");
+            var languageError = document.getElementById("languageError");
+            var districtError = document.getElementById("districtError");
+            var addressError = document.getElementById("addressError");
+            var emailError = document.getElementById("emailError");
+            var mobileError = document.getElementById("mobileError");
+            var unameError = document.getElementById("unameError");
+            var pincodeError = document.getElementById("pincodeError");
+            var passError = document.getElementById("passError");
+    
+            // Regular expressions for validation
+            var nameRegex = /^[a-zA-Z\s]+$/;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var mobileRegex = /^[0-9]{10}$/;
+            var unameRegex = /^[a-zA-Z0-9_]+$/; // Updated regex to include underscores
+            var pincodeRegex = /^[0-9]{6}$/;
+            var passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    
+            // Validation
+            if (name === "") {
+                nameError.textContent = "Please enter your name.";
+                return false;
+            } else {
+                nameError.textContent = "";
+            }
+    
+            if (!gender) {
+                genderError.textContent = "Please select your gender.";
+                return false;
+            } else {
+                genderError.textContent = "";
+            }
+    
+            if (language.length === 0) {
+                languageError.textContent = "Please select at least one language known.";
+                return false;
+            } else {
+                languageError.textContent = "";
+            }
+    
+            if (district === "sd") {
+                districtError.textContent = "Please select your district.";
+                return false;
+            } else {
+                districtError.textContent = "";
+            }
+    
+            if (address === "") {
+                addressError.textContent = "Please enter your address.";
+                return false;
+            } else {
+                addressError.textContent = "";
+            }
+    
+            if (!email.match(emailRegex)) {
+                emailError.textContent = "Please enter a valid email address.";
+                return false;
+            } else {
+                emailError.textContent = "";
+            }
+    
+            if (!mobile.match(mobileRegex)) {
+                mobileError.textContent = "Please enter a valid 10-digit mobile number.";
+                return false;
+            } else {
+                mobileError.textContent = "";
+            }
+    
+            if (!uname.match(unameRegex)) {
+                unameError.textContent = "Please enter a valid username (only letters, numbers, and underscores).";
+                return false;
+            } else {
+                unameError.textContent = "";
+            }
+    
+            if (!pincode.match(pincodeRegex)) {
+                pincodeError.textContent = "Please enter a valid 6-digit pincode.";
+                return false;
+            } else {
+                pincodeError.textContent = "";
+            }
+    
+            if (!pass.match(passRegex)) {
+                passError.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.";
+                return false;
+            } else {
+                passError.textContent = "";
+            }
+    
+            return true;
+        }
+    </script>
+</body>
+</html>
